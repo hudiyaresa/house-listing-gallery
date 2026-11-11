@@ -19,7 +19,8 @@ Live site: https://hudiyaresa.github.io/house-listing-gallery/
 - **Gallery**: one card per house with a photo strip, price, land and building size, bedrooms, bathrooms, certificate, notes, and a link to the original post. Click any photo to open a full-screen viewer.
 - **Map**: price pins clustered by area, styled like the rumah123 map. Each popup shows a photo, the price, a short summary, and contact or source links.
 - **Exact vs estimated pins**: solid pins come from the seller's own map pin. Dashed pins marked `~` are estimates (see below).
-- **Filters** shared by both views: free-text search, area, price band, source, "has photos", and sort order.
+- **Cluster or housing complex**: houses inside a gated cluster or a housing complex get a badge in the title, with the estate name when the listing gives one (for example "As Salam (cluster)").
+- **Filters** shared by both views: free-text search, area (multi-select), price band, source (multi-select), "has photos", "cluster/complex only", and sort order.
 - **Reference circles**: 3 km around the Jatiwaringin toll gate and 4 km around the Ministry of Forestry office in Senayan.
 - Works on a phone, and follows the system light or dark theme.
 
@@ -38,8 +39,9 @@ The collection scripts are not in this repo because they run against my own acco
 1. **Threads**: every shared post was reopened with Playwright to get the full text and all replies, including nested ones. Reply pages arrive from GraphQL as `text/javascript`, so every `/graphql` response is parsed, not only JSON ones.
 2. **Extraction**: regular expressions pull price, land and building size, bedrooms, bathrooms, floors, certificate, and phone numbers. The price is the number closest to words like *harga*, *jual*, or *cash*; numbers after *cicilan*, *DP*, *pasaran*, or *diskon* are ignored. Emoji digits and prices written in words were fixed by hand.
 3. **Gaps**: listing photos were run through Windows OCR, and seller bios were checked for WhatsApp links.
-4. **rumah123**: listings under Rp 650M were opened one by one (1.5 s apart). A 404 means the listing was removed, and it is dropped. Photos load straight from the rumah123 CDN.
-5. **Page**: one static `index.html` with the data embedded, [Leaflet](https://leafletjs.com/) with markercluster for the map, and Esri basemaps.
+4. **Cluster or complex**: a house counts as inside a cluster when the text says *cluster*, *klaster*, *one gate*, or *townhouse*, and inside a housing complex for *komplek*, *perumahan*, *perum*, *perumnas*, *regency*, or *residence*, or when it mentions an estate fee (IPL) or 24-hour security. Mentions that only give directions ("near perumahan X") or deny it ("bukan cluster") are skipped. rumah123 listings also use the site's own "One Gate System" and "Komplek Perumahan" tags.
+5. **rumah123**: listings under Rp 650M were opened one by one (1.5 s apart). A 404 means the listing was removed, and it is dropped. Photos load straight from the rumah123 CDN.
+6. **Page**: one static `index.html` with the data embedded, [Leaflet](https://leafletjs.com/) with markercluster for the map, and Esri basemaps.
 
 ## Location estimates
 
