@@ -29,9 +29,9 @@ Live site: https://hudiyaresa.github.io/house-listing-gallery/
 
 | Source | What it holds | Price filter |
 | --- | --- | --- |
-| Threads | Listing posts plus offers left as replies under "looking for a house" threads | up to Rp 810M |
-| Shortlist | Houses noted during the search (seller ads and links only, private chat removed) | up to Rp 810M, plus a few above |
-| rumah123 | Listings from a daily rumah123 scraper, re-checked one by one so removed listings and auctions are left out, repeat postings merged | up to Rp 810M |
+| Threads | Listing posts plus offers left as replies under "looking for a house" threads | up to Rp 860M |
+| Shortlist | Houses noted during the search (seller ads and links only, private chat removed) | up to Rp 860M, plus a few above |
+| rumah123 | Listings from a daily rumah123 scraper, re-checked one by one so removed listings and auctions are left out, repeat postings merged | up to Rp 860M |
 
 ## How the data was built
 
@@ -41,7 +41,7 @@ The collection scripts are not in this repo because they run against my own acco
 2. **Extraction**: regular expressions pull price, land and building size, bedrooms, bathrooms, floors, certificate, and phone numbers. The price is the number closest to words like *harga*, *jual*, or *cash*; numbers after *cicilan*, *DP*, *pasaran*, or *diskon* are ignored. Emoji digits and prices written in words were fixed by hand.
 3. **Gaps**: listing photos were run through Windows OCR, and seller bios were checked for WhatsApp links.
 4. **Cluster or complex**: a house counts as inside a cluster when the text says *cluster*, *klaster*, *one gate*, or *townhouse*, and inside a housing complex for *komplek*, *perumahan*, *perum*, *perumnas*, *regency*, or *residence*, or when it mentions an estate fee (IPL) or 24-hour security. Mentions that only give directions ("near perumahan X") or deny it ("bukan cluster") are skipped. rumah123 listings also use the site's own "One Gate System" and "Komplek Perumahan" tags.
-5. **rumah123**: listings up to Rp 810M were opened one by one (1.5 s apart) for the full description, photos, and seller pin. A 404 means the listing was removed, and it is dropped. Photos load straight from the rumah123 CDN.
+5. **rumah123**: listings up to Rp 860M were opened one by one (1.5 s apart) for the full description, photos, and seller pin. A 404 means the listing was removed, and it is dropped. Photos load straight from the rumah123 CDN.
 6. **Repeat postings**: two rumah123 listings count as the same house when the agent, price, land size, and building size all match and the photos or text match too, or when they share a near-identical photo (64-bit dHash, at most 6 bits apart) with the same land size and a price within 10%. A photo shared by listings of many different sizes is treated as an agent logo or brochure and ignored. The card keeps the posting with the most photos.
 7. **Page**: one static `index.html` with the data embedded, [Leaflet](https://leafletjs.com/) with markercluster for the map, and Esri basemaps.
 
