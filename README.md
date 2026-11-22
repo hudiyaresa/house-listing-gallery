@@ -1,6 +1,6 @@
 # House Listing Gallery
 
-A static gallery and map of houses for sale around Jakarta and Bekasi, collected while house hunting in late 2026. It brings together three sources in one page: Threads posts, a personal shortlist, and rumah123 listings, each with photos, price, size, and location.
+A static gallery and map of houses for sale around Jakarta and Bekasi, collected while house hunting in late 2026. It brings together four sources in one page: Threads posts, a personal shortlist, rumah123 listings, and a one-off Pinhome snapshot, each with photos, price, size, and location.
 
 Live site: https://hudiyaresa.github.io/house-listing-gallery/
 
@@ -32,6 +32,7 @@ Live site: https://hudiyaresa.github.io/house-listing-gallery/
 | Threads | Listing posts plus offers left as replies under "looking for a house" threads | up to Rp 860M |
 | Shortlist | Houses noted during the search (seller ads and links only, private chat removed) | up to Rp 860M, plus a few above |
 | rumah123 | Listings from a daily rumah123 scraper, re-checked one by one so removed listings and auctions are left out, repeat postings merged | up to Rp 860M |
+| Pinhome | One snapshot of listings posted or updated between 15 and 22 November 2026. It is not refreshed | up to Rp 860M |
 
 ## How the data was built
 
@@ -42,12 +43,13 @@ The collection scripts are not in this repo because they run against my own acco
 3. **Gaps**: listing photos were run through Windows OCR, and seller bios were checked for WhatsApp links.
 4. **Cluster or complex**: a house counts as inside a cluster when the text says *cluster*, *klaster*, *one gate*, or *townhouse*, and inside a housing complex for *komplek*, *perumahan*, *perum*, *perumnas*, *regency*, or *residence*, or when it mentions an estate fee (IPL) or 24-hour security. Mentions that only give directions ("near perumahan X") or deny it ("bukan cluster") are skipped. rumah123 listings also use the site's own "One Gate System" and "Komplek Perumahan" tags.
 5. **rumah123**: listings up to Rp 860M were opened one by one (1.5 s apart) for the full description, photos, and seller pin. A 404 means the listing was removed, and it is dropped. Photos load straight from the rumah123 CDN.
-6. **Repeat postings**: two rumah123 listings count as the same house when the agent, price, land size, and building size all match and the photos or text match too, or when they share a near-identical photo (64-bit dHash, at most 6 bits apart) with the same land size and a price within 10%. A photo shared by listings of many different sizes is treated as an agent logo or brochure and ignored. The card keeps the posting with the most photos.
-7. **Page**: one static `index.html` with the data embedded, [Leaflet](https://leafletjs.com/) with markercluster for the map, and Esri basemaps.
+6. **Pinhome**: search pages sorted by last update were read back to 7 days (plain HTML only, as the site's robots.txt asks), then each listing page in Jakarta, Bekasi, and Depok for its pin, description, and specs. Agent contact details on those pages were not kept. Agent pins are shown as estimates, because three of the ten I checked were 2 km or more off. Photos load from the Pinhome CDN.
+7. **Repeat postings**: two rumah123 listings count as the same house when the agent, price, land size, and building size all match and the photos or text match too, or when they share a near-identical photo (64-bit dHash, at most 6 bits apart) with the same land size and a price within 10%. A photo shared by listings of many different sizes is treated as an agent logo or brochure and ignored. The card keeps the posting with the most photos.
+8. **Page**: one static `index.html` with the data embedded, [Leaflet](https://leafletjs.com/) with markercluster for the map, and Esri basemaps.
 
 ## Location estimates
 
-Only some rumah123 listings carry a precise seller pin. For everything else, the pin is an estimate, in this order:
+Only some rumah123 listings carry a precise seller pin. Pinhome pins are always treated as estimates. For everything else, the pin is an estimate, in this order:
 
 1. The centre of the kelurahan, computed as the median of thousands of rumah123 pins in that area
 2. A short hand-made list of areas that rumah123 rarely covers (Condet, Kranji, Kalisari, and so on)
